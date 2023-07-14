@@ -11,16 +11,18 @@ const OnHomePage = () => {
   }, []);
 
   return (
-    <ul>
-      {movies.map(hit => {
-        return (
-          <li key={hit.id}>
-            <Link to={`${hit.id}`} />
-            {hit.title}
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <h1>Trending today</h1>
+      <ul>
+        {movies.map(hit => {
+          return (
+            <li key={hit.id}>
+              <Link to={`/movies/${hit.id}`}>{hit.title}</Link>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 };
 
