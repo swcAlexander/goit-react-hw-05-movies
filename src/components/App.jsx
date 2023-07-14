@@ -1,16 +1,20 @@
-export const App = () => {
+import { Routes, Route, NavLink } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import Home from 'pages/Home';
+
+const App = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
+    <div className="container">
+      <nav>
+        <NavLink to="/" end>
+          Home
+        </NavLink>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </div>
   );
 };
+
+export default App;
