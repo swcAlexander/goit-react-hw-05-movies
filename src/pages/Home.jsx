@@ -1,29 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import fetchGallery from 'api/ApiServise';
-import { trending } from 'api/ApiServise';
+import fetchGallery from 'api/ApiService';
+import { trending } from 'api/ApiService';
 
-const OnHomePage = () => {
+const HomePage = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetchGallery(trending, '').then(data => setMovies(data.results));
+    const fetchImages = async () => {
+      try {
+        const data = await fetchGallery(trending);
+        setMovies(data.results);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchImages();
   }, []);
 
   return (
-    <>
+    <div>
       <h1>Trending today</h1>
       <ul>
-        {movies.map(hit => {
-          return (
-            <li key={hit.id}>
-              <Link to={`/movies/${hit.id}`}>{hit.title}</Link>
-            </li>
-          );
-        })}
+        {movies.map(({ id, original_title }) => (
+          <li key={id}>
+            <Link to={`/movies/${id}`}>{original_title}</Link>
+          </li>
+        ))}
       </ul>
-    </>
+    </div>
   );
 };
 
-export default OnHomePage;
+export default HomePage;

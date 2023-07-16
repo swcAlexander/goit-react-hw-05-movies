@@ -1,42 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import fetchGallery, { byId } from 'api/ApiServise';
+import { byQuery } from 'api/ApiService';
+import { Link } from 'react-router-dom';
+import { Loader } from 'components/Loader/Loader';
+import fetchGallery from 'api/ApiService';
+import Searchbar from 'components/Searchbar/Searchbar';
+// import MoviesGallery from 'components/ImageGallery/ImageGallery';
 
-const MovieDetailsPage = () => {
-  const [movie, setMovie] = useState(null);
-  const { id } = useParams();
-
+const Movies = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [movies, setMovies] = useState([]);
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchMoviesByQuery = async () => {
+      if (searchQuery.trim() === '') {
+        return;
+      }
       try {
-        const response = await fetchGallery(`${byId}/${id}`);
-        setMovie(response);
+        setIsLoading(true);
+        const response = await fetchGallery(byQuery, searchQuery);
+        setMovies(response.results);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching movie details:', error);
       }
     };
 
-    fetchMovieDetails();
-  }, [id]);
+    fetchMoviesByQuery();
+  }, [searchQuery]);
 
-  if (!movie) {
-    return <div>Loading...</div>;
-  }
-
+  const handleInputChange = searchQuery => {
+    setSearchQuery(searchQuery);
+    setMovies([]);
+  };
   return (
-    <>
-      <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
-      <h1>{movie.title}</h1>
-      <h2>User score: {movie.vote_average * 10}%</h2>
-
-      <p>
-        Overview <br /> {movie.overview}
-      </p>
-      <h2>Genres:</h2>
-      <p>{movie.genres.map(genre => genre.name).join(' ')}</p>
-      <p>Additional information</p>
-    </>
+    <div>
+      <Searchbar onSubmit={handleInputChange} />
+      {isLoading && <Loader />}
+      <ul>
+        {movies.map(({ id, original_title }) => (
+          <li key={id}>
+            <Link to={`/movies/${id}`}>{original_title}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
-export default MovieDetailsPage;
+export default Movies;

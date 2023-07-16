@@ -1,7 +1,10 @@
 import { Routes, Route, NavLink } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from 'pages/Home';
-import MovieDetailsPage from 'pages/Movies';
+import Movies from 'pages/Movies';
+import MovieDetailsPage from 'pages/MovieDetail';
+import Cast from './Cast/Cast';
+import Reviews from './Review/Review';
 
 const App = () => {
   return (
@@ -16,7 +19,11 @@ const App = () => {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/movies/:id" element={<MovieDetailsPage />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies/:id" element={<MovieDetailsPage />}>
+          <Route path="cast" element={<Cast />} />
+          <Route path="reviews" element={<Reviews />} />
+        </Route>
       </Routes>
     </div>
   );
