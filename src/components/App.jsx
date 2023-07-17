@@ -9,14 +9,16 @@ import Reviews from './Review/Review';
 const App = () => {
   return (
     <div className="container">
-      <nav>
-        <NavLink to="/" end>
-          Home
-        </NavLink>
-        <NavLink to="/movies" end>
-          Movies
-        </NavLink>
-      </nav>
+      <div className="header">
+        <nav>
+          <NavLink to="/" end className="home_movies">
+            Home
+          </NavLink>
+          <NavLink to="/movies" end className="home_movies">
+            Movies
+          </NavLink>
+        </nav>
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />

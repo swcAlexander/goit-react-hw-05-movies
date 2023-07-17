@@ -1,0 +1,11 @@
+.cast_img {
+  max-height: 500px;
+}
+.cast_text {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.cast_text > span {
+  font-weight: 600;
+}

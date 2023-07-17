@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import fetchGallery, { byId } from 'api/ApiService';
-
+import styles from './Cast.module.css';
 const Cast = () => {
   const { id } = useParams();
   const [cast, setCast] = useState([]);
@@ -26,12 +26,13 @@ const Cast = () => {
             <li key={id}>
               <img
                 src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                className={styles.cast_img}
                 alt={original_name}
               />
-              <p>
+              <p className={styles.cast_text}>
                 <span> Actor:</span> {original_name}
               </p>
-              <p>
+              <p className={styles.cast_text}>
                 <span>Character:</span> {character}
               </p>
             </li>

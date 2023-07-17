@@ -28,6 +28,10 @@ const Movies = () => {
     fetchMoviesByQuery();
   }, [searchQuery]);
 
+  useEffect(() => {
+    movies.length > 0 && localStorage.setItem('movies', JSON.stringify(movies));
+  }, [movies]);
+
   const handleInputChange = searchQuery => {
     setSearchQuery(searchQuery);
     setMovies([]);
