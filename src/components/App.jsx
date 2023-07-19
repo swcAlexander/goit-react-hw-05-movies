@@ -1,6 +1,7 @@
-import { Routes, Route, NavLink } from 'react-router-dom';
-import React, { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { lazy } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
+import Layout from 'components/Layout/Layout';
 
 const LazyHome = lazy(() => import('pages/Home'));
 const LazyMovies = lazy(() => import('pages/Movies'));
@@ -10,28 +11,17 @@ const LazyReviews = lazy(() => import('components/Review/Review'));
 
 const App = () => {
   return (
-    <div className="container">
-      <div className="header">
-        <nav>
-          <NavLink to="/" end className="home_movies">
-            Home
-          </NavLink>
-          <NavLink to="/movies" end className="home_movies">
-            Movies
-          </NavLink>
-        </nav>
-      </div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<LazyHome />} />
-          <Route path="/movies" element={<LazyMovies />} />
-          <Route path="/movies/:id" element={<LazyMovieDetailsPage />}>
-            <Route path="cast" element={<LazyCast />} />
-            <Route path="reviews" element={<LazyReviews />} />
-          </Route>
-        </Routes>
-      </Suspense>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<LazyHome />} />
+        <Route path="movies" element={<LazyMovies />} />
+        <Route path="movies/:id" element={<LazyMovieDetailsPage />}>
+          <Route path="cast" element={<LazyCast />} />
+          <Route path="reviews" element={<LazyReviews />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Route>
+    </Routes>
   );
 };
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 87 100" width="125" height="145" style="margin:auto">
+	<g x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
+		<rect width="87" height="100" fill="#5094bd"/>
+		<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="17.4">No_Images</text>
+	</g>
+</svg>

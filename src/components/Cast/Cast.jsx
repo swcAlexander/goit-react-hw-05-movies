@@ -25,7 +25,11 @@ const Cast = () => {
           {cast.map(({ id, profile_path, original_name, character }) => (
             <li key={id}>
               <img
-                src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                src={
+                  profile_path
+                    ? `https://image.tmdb.org/t/p/w500${profile_path}`
+                    : 'https://via.placeholder.com/333x500'
+                }
                 className={styles.cast_img}
                 alt={original_name}
               />

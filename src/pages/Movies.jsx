@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { byQuery } from 'api/ApiService';
-import { Link } from 'react-router-dom';
 import { Loader } from 'components/Loader/Loader';
 import fetchGallery from 'api/ApiService';
 import Searchbar from 'components/Searchbar/Searchbar';
-// import MoviesGallery from 'components/ImageGallery/ImageGallery';
+import MoviesList from 'components/MoviesList/MoviesList';
 
 const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [movies, setMovies] = useState([]);
+  const location = useLocation();
   useEffect(() => {
     const fetchMoviesByQuery = async () => {
       if (searchQuery.trim() === '') {
@@ -22,15 +24,12 @@ const Movies = () => {
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching movie details:', error);
+        setError(true);
       }
     };
 
     fetchMoviesByQuery();
   }, [searchQuery]);
-
-  useEffect(() => {
-    movies.length > 0 && localStorage.setItem('movies', JSON.stringify(movies));
-  }, [movies]);
 
   const handleInputChange = searchQuery => {
     setSearchQuery(searchQuery);
@@ -40,13 +39,10 @@ const Movies = () => {
     <div>
       <Searchbar onSubmit={handleInputChange} />
       {isLoading && <Loader />}
-      <ul>
-        {movies.map(({ id, original_title }) => (
-          <li key={id}>
-            <Link to={`/movies/${id}`}>{original_title}</Link>
-          </li>
-        ))}
-      </ul>
+      {error && <p> Oops ... Somesing went wrong...</p>}
+      {movies.length > 0 && (
+        <MoviesList movies={movies} currentPath={location.pathname} />
+      )}
     </div>
   );
 };
