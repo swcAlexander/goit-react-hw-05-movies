@@ -4,22 +4,24 @@ import { Loader } from 'components/Loader/Loader';
 import fetchGallery from 'api/ApiService';
 import Searchbar from 'components/Searchbar/Searchbar';
 import MoviesList from 'components/MoviesList/MoviesList';
+import { useSearchParams } from 'react-router-dom';
 
 const Movies = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   useEffect(() => {
+    const searchQuery = searchParams.get('query');
+    if (!searchQuery) return;
     const fetchMoviesByQuery = async () => {
-      if (searchQuery.trim() === '') {
-        return;
-      }
       try {
         setIsLoading(true);
         const response = await fetchGallery(byQuery, searchQuery);
         setMovies(response.results);
         setIsLoading(false);
+        console.log(response);
       } catch (error) {
         console.error('Error fetching movie details:', error);
         setError(true);
@@ -27,17 +29,13 @@ const Movies = () => {
     };
 
     fetchMoviesByQuery();
-  }, [searchQuery]);
+  }, [searchParams]);
 
-  const handleInputChange = searchQuery => {
-    setSearchQuery(searchQuery);
-    setMovies([]);
-  };
   return (
     <div>
-      <Searchbar onSubmit={handleInputChange} />
+      <Searchbar onSubmit={setSearchParams} />
       {isLoading && <Loader />}
-      {error && <p> Oops ... Somesing went wrong...</p>}
+      {error && <p>Oops ... Something went wrong...</p>}
       {movies.length > 0 && <MoviesList movies={movies} />}
     </div>
   );

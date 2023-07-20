@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ImSearch } from 'react-icons/im';
-import { toast } from 'react-toastify';
+
 import styles from 'components/Searchbar/Searchbar.module.css';
 
 const Searchbar = ({ onSubmit }) => {
-  const [imageName, setImageName] = useState('');
-
-  const handleNameChange = event => {
-    setImageName(event.currentTarget.value.toLowerCase());
-  };
+  const [query, setQuery] = useState('');
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (imageName.trim() === '') {
-      toast.error('Please, input image name');
-      return;
-    }
-    onSubmit(imageName);
-    setImageName('');
+
+    onSubmit({ query });
+  };
+
+  const handleSearchParams = ({ target: { value } }) => {
+    setQuery(value);
   };
 
   return (
@@ -28,8 +24,8 @@ const Searchbar = ({ onSubmit }) => {
           <ImSearch />
         </button>
         <input
-          onChange={handleNameChange}
-          value={imageName}
+          onChange={handleSearchParams}
+          value={query}
           className={styles.input}
           type="text"
           autoComplete="off"
