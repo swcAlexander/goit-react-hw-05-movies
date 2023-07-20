@@ -1,11 +1,5 @@
-import { useEffect, useState } from 'react';
-import {
-  Link,
-  useParams,
-  Outlet,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { Link, useParams, Outlet, useLocation } from 'react-router-dom';
 import { byId } from 'api/ApiService';
 import { Loader } from 'components/Loader/Loader';
 import fetchGallery from 'api/ApiService';
@@ -13,11 +7,11 @@ import styles from 'pages/MovieDetail.module.css';
 
 const MovieDetailsPage = () => {
   const [movie, setMovie] = useState(null);
-  const navigate = useNavigate();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-  const currentLocation = useLocation();
+  const location = useLocation();
+  const goBack = useRef(location?.state?.from ?? '/');
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -38,19 +32,16 @@ const MovieDetailsPage = () => {
   if (!movie) {
     return <div>Loading...</div>;
   }
-  const handleGoBack = () => {
-    navigate(currentLocation.state?.from || '/');
-  };
 
   return (
     <>
       {isLoading && <Loader />}
       {error && <p> Oops ... Somesing went wrong...</p>}
-      <button onClick={handleGoBack} className={styles.back}>
-        Go Back
-      </button>
       {movie && (
         <>
+          <Link to={goBack.current} className={styles.back}>
+            Go Back
+          </Link>
           <div className={styles.container}>
             <img
               src={

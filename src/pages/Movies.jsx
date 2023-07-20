@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { byQuery } from 'api/ApiService';
 import { Loader } from 'components/Loader/Loader';
 import fetchGallery from 'api/ApiService';
@@ -11,7 +10,6 @@ const Movies = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [movies, setMovies] = useState([]);
-  const location = useLocation();
   useEffect(() => {
     const fetchMoviesByQuery = async () => {
       if (searchQuery.trim() === '') {
@@ -40,9 +38,7 @@ const Movies = () => {
       <Searchbar onSubmit={handleInputChange} />
       {isLoading && <Loader />}
       {error && <p> Oops ... Somesing went wrong...</p>}
-      {movies.length > 0 && (
-        <MoviesList movies={movies} currentPath={location.pathname} />
-      )}
+      {movies.length > 0 && <MoviesList movies={movies} />}
     </div>
   );
 };
