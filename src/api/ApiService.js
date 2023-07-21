@@ -15,7 +15,6 @@ async function fetchGallery(USED_URL, searchQuery = '') {
   };
   try {
     const response = await axios(axiosOptions);
-    console.log(response.data);
     return response.data;
   } catch {
     toast.info("We're sorry, but you've reached the end of search results.");

@@ -21,7 +21,6 @@ const Movies = () => {
         const response = await fetchGallery(byQuery, searchQuery);
         setMovies(response.results);
         setIsLoading(false);
-        console.log(response);
       } catch (error) {
         console.error('Error fetching movie details:', error);
         setError(true);
